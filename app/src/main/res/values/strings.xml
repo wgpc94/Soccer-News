@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Soccer News</string>
+    <string name="title_news">News</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="textview_title">Title</string>
+    <string name="thumbnail_image">thumbnail image</string>
+    <string name="textview_description">description</string>
+    <string name="open_link">Open Link</string>
+    <string name="image_favorite">imagem favorite</string>
+    <string name="image_share">imagen share</string>
+</resources>
