@@ -1,25 +1,54 @@
 package com.example.soccernews.ui.news;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import com.example.soccernews.data.remote.NewsApi;
 import com.example.soccernews.domain.News;
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsViewModel extends ViewModel {
 
+    private final NewsApi api;
     private final MutableLiveData<List<News>> news;
 
     public  NewsViewModel() {
         this.news = new MutableLiveData<>();
-        ArrayList<News> listNewsMock  = new ArrayList<>();
-        listNewsMock.add(new News("Lorem Ipsum", "é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos."));
-        listNewsMock.add(new News("Lorem Ipsum", "é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos."));
-        listNewsMock.add(new News("Lorem Ipsum", "é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos."));
-        this.news.setValue(listNewsMock);
+        Retrofit retrofit = new  Retrofit.Builder()
+                .baseUrl("https://wgpc94.github.io/soccer_news_api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        api = retrofit.create(NewsApi.class);
+        findNews();
     }
 
     public MutableLiveData<List<News>> getNews() {
         return this.news;
+    }
+
+    private void findNews() {
+        api.findNews().enqueue(new Callback<List<News>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<News>> call, @NonNull Response<List<News>> response) {
+                if (response.isSuccessful()){
+                    news.setValue(response.body());
+                }else {
+                    Log.d("Error on response ", "response is not successful");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<News>> call, @NonNull Throwable t) {
+                Log.d("Error on failure ", t.getMessage());
+            }
+        });
     }
 }
