@@ -1,4 +1,4 @@
-package com.example.soccernews.date.local;
+package com.example.soccernews.data.local;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

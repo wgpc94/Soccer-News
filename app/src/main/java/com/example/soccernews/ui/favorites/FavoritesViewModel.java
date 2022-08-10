@@ -1,19 +1,13 @@
 package com.example.soccernews.ui.favorites;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.soccernews.data.Repository;
+import com.example.soccernews.domain.News;
+
 public class FavoritesViewModel extends ViewModel {
-
-    private final MutableLiveData<String> mText;
-
-    public FavoritesViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is favorites fragment");
-    }
-
-    public LiveData<String> getText() {
-        return mText;
+    public void save(News newsSave) {
+        Repository.getInstance().getLocalDataBase().NewsDao().save(newsSave);
     }
 }
+

@@ -1,4 +1,4 @@
-package com.example.soccernews.date.local;
+package com.example.soccernews.data.local;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -13,6 +13,6 @@ public interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(News news);
 
-    @Query("SELECT * FROM news WHERE favorite = 1")
+    @Query("SELECT * FROM news WHERE favorite = 1") // 1 == true
     List<News> getFavoritesNews();
 }

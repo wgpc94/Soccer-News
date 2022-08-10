@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.soccernews.MainActivity;
 import com.example.soccernews.databinding.FragmentNewsBinding;
 import com.example.soccernews.ui.NewsAdapter;
 
@@ -27,12 +26,7 @@ public class NewsFragment extends Fragment {
         View root = binding.getRoot();
         recyclerView = binding.rvNews;
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext(), LinearLayoutManager.VERTICAL, false));
-        newsViewModel.getNews().observe(getViewLifecycleOwner(),newsList -> recyclerView.setAdapter(new NewsAdapter(newsList, news -> {
-            MainActivity mainActivity = (MainActivity) getActivity();
-            if (mainActivity !=null){
-                mainActivity.getDb().NewsDao().save(news);
-            }
-        })));
+        newsViewModel.getNews().observe(getViewLifecycleOwner(),newsList -> recyclerView.setAdapter(new NewsAdapter(newsList, newsViewModel::save)));
         return root;
     }
 
